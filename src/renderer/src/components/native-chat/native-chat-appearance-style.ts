@@ -12,15 +12,16 @@ export const NATIVE_CHAT_TRANSCRIPT_OUTER_CLASS = 'px-3 pt-10 pb-4 sm:px-4'
 export const NATIVE_CHAT_TRANSCRIPT_COLUMN_CLASS =
   'mx-auto flex w-full max-w-(--chat-content-max-width) flex-col gap-5 px-[5px]'
 
-export type NativeChatAppearanceStyle = CSSProperties & Record<`--${string}`, string | number> & {
-  '--chat-font-size': string
-  '--chat-code-font-size': string
-  '--chat-content-max-width': string
-  '--chat-secondary-font-size': string
-  '--chat-inline-code-ratio': string
-  '--chat-estimated-line-height': number
-  '--chat-estimated-chars-per-line': number
-}
+export type NativeChatAppearanceStyle = CSSProperties &
+  Record<`--${string}`, string | number> & {
+    '--chat-font-size': string
+    '--chat-code-font-size': string
+    '--chat-content-max-width': string
+    '--chat-secondary-font-size': string
+    '--chat-inline-code-ratio': string
+    '--chat-estimated-line-height': number
+    '--chat-estimated-chars-per-line': number
+  }
 
 export function nativeChatContrastMix(contrast: number, light: boolean): number {
   const value = Number.isFinite(contrast) ? Math.min(150, Math.max(50, contrast)) : 100

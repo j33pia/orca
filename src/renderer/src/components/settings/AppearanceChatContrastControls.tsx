@@ -21,7 +21,11 @@ export function AppearanceChatContrastControls({
   const { contrast, matchTerminalInterface: matching } = appearance
   return (
     <>
-      <SearchableSetting {...entries[0]} forceVisible={forceVisiblePrimary}>
+      <SearchableSetting
+        id={entries[0].targetSectionId}
+        {...entries[0]}
+        forceVisible={forceVisiblePrimary}
+      >
         <SettingsSwitchRow
           label={entries[0].title}
           description={entries[0].description}
@@ -29,7 +33,11 @@ export function AppearanceChatContrastControls({
           onChange={() => onChange({ matchTerminalInterface: !matching })}
         />
       </SearchableSetting>
-      <SearchableSetting {...entries[1]} forceVisible={forceVisiblePrimary}>
+      <SearchableSetting
+        id={entries[1].targetSectionId}
+        {...entries[1]}
+        forceVisible={forceVisiblePrimary}
+      >
         <SettingsRow
           label={entries[1].title}
           description={entries[1].description}

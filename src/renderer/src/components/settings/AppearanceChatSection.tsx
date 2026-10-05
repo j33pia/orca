@@ -41,7 +41,11 @@ export function AppearanceChatSection({
         onChange={update}
         forceVisiblePrimary={forceVisiblePrimary}
       />
-      <SearchableSetting {...entries.textSize} forceVisible={forceVisiblePrimary}>
+      <SearchableSetting
+        id={entries.textSize.targetSectionId}
+        {...entries.textSize}
+        forceVisible={forceVisiblePrimary}
+      >
         <NumberField
           label={entries.textSize.title}
           description={entries.textSize.description}
@@ -54,7 +58,11 @@ export function AppearanceChatSection({
           onChange={(fontSize) => update({ fontSize })}
         />
       </SearchableSetting>
-      <SearchableSetting {...entries.codeTextSize} forceVisible={forceVisiblePrimary}>
+      <SearchableSetting
+        id={entries.codeTextSize.targetSectionId}
+        {...entries.codeTextSize}
+        forceVisible={forceVisiblePrimary}
+      >
         <NumberField
           label={entries.codeTextSize.title}
           description={entries.codeTextSize.description}
@@ -67,7 +75,11 @@ export function AppearanceChatSection({
           onChange={(codeFontSize) => update({ codeFontSize })}
         />
       </SearchableSetting>
-      <SearchableSetting {...entries.width} forceVisible={forceVisiblePrimary}>
+      <SearchableSetting
+        id={entries.width.targetSectionId}
+        {...entries.width}
+        forceVisible={forceVisiblePrimary}
+      >
         <SettingsRow
           label={entries.width.title}
           description={entries.width.description}
@@ -81,7 +93,11 @@ export function AppearanceChatSection({
           }
         />
       </SearchableSetting>
-      <SearchableSetting {...entries.reset} forceVisible={forceVisiblePrimary}>
+      <SearchableSetting
+        id={entries.reset.targetSectionId}
+        {...entries.reset}
+        forceVisible={forceVisiblePrimary}
+      >
         <SettingsRow
           label={entries.reset.title}
           description={entries.reset.description}

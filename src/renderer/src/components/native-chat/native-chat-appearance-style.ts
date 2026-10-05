@@ -1,5 +1,6 @@
 import './native-chat-appearance.css'
-import type { CSSProperties } from 'react'
+import { useMemo, type CSSProperties } from 'react'
+import { useShallow } from 'zustand/react/shallow'
 import type { GlobalSettings } from '../../../../shared/global-settings-types'
 import { resolveNativeChatAppearanceSettings } from '../../../../shared/native-chat-appearance-settings'
 import { resolveConfiguredTerminalColors } from '../../../../shared/terminal-theme-selection'
@@ -22,6 +23,21 @@ export type NativeChatAppearanceStyle = CSSProperties &
     '--chat-estimated-line-height': number
     '--chat-estimated-chars-per-line': number
   }
+
+export function selectNativeChatAppearanceSettings(
+  settings: Partial<GlobalSettings> | null | undefined
+) {
+  return {
+    theme: settings?.theme,
+    terminalThemeDark: settings?.terminalThemeDark,
+    terminalThemeLight: settings?.terminalThemeLight,
+    terminalUseSeparateLightTheme: settings?.terminalUseSeparateLightTheme,
+    terminalCustomThemes: settings?.terminalCustomThemes,
+    terminalColorOverrides: settings?.terminalColorOverrides,
+    terminalFontFamily: settings?.terminalFontFamily,
+    nativeChatAppearance: settings?.nativeChatAppearance
+  }
+}
 
 export function nativeChatContrastMix(contrast: number, light: boolean): number {
   const value = Number.isFinite(contrast) ? Math.min(150, Math.max(50, contrast)) : 100
@@ -74,6 +90,7 @@ export function nativeChatAppearanceStyle(
     const background = hasThemeColors ? colors.background : '#000000'
     const foreground = hasThemeColors ? colors.foreground : '#fafafa'
     light = isTerminalBackgroundLight(background)
+    style.colorScheme = light ? 'light' : 'dark'
     Object.assign(style, {
       '--chat-font-family': font,
       '--background': 'var(--chat-canvas)',
@@ -114,12 +131,18 @@ export function nativeChatAppearanceStyle(
   const bodyMix = nativeChatContrastMix(appearance.contrast, light)
   style['--chat-foreground-mix'] = `${bodyMix}%`
   style['--chat-strong-mix'] = `${Math.min(100, bodyMix + (light ? 10 : 12))}%`
-  style.colorScheme = light ? 'light' : 'dark'
   return style
 }
 
 export function useNativeChatAppearanceStyle(
-  settings: Partial<GlobalSettings> | null | undefined
+  settings: Partial<GlobalSettings> | null | undefined,
+  measuredColumnWidthPx?: number | null
 ): NativeChatAppearanceStyle {
-  return nativeChatAppearanceStyle(settings, undefined, useSystemPrefersDark())
+  const selectInputs = useShallow(selectNativeChatAppearanceSettings)
+  const inputs = selectInputs(settings)
+  const systemPrefersDark = useSystemPrefersDark()
+  return useMemo(
+    () => nativeChatAppearanceStyle(inputs, measuredColumnWidthPx, systemPrefersDark),
+    [inputs, measuredColumnWidthPx, systemPrefersDark]
+  )
 }
